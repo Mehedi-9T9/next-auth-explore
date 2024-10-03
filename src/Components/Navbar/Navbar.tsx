@@ -5,6 +5,7 @@ import React from 'react';
 
 const Navbar = () => {
     const session = useSession()
+    console.log(session.data.user);
 
     return (
         <div className="navbar bg-base-100">
@@ -17,10 +18,10 @@ const Navbar = () => {
                     <li><Link href={'/blogs'}>Blogs</Link></li>
                     <li>
                         <details>
-                            <summary>Parent</summary>
+                            <summary>{session.data.user.name}</summary>
                             <ul className="bg-base-100 rounded-t-none p-2">
-                                <li><a>Link 1</a></li>
-                                <li><a>Link 2</a></li>
+                                <li><a> Role: {session.data.user.type}</a></li>
+                                <li><a>{session.data.user.email}</a></li>
                             </ul>
                         </details>
                     </li>

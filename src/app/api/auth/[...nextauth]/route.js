@@ -9,6 +9,8 @@ export const authOption = {
         // generateSessionToken: () => {
         //     return randomUUID?.() ?? randomBytes(32).toString("hex")
         //   }
+        maxAge: 30 * 24 * 60 * 60,
+        // updateAge: 24 * 60 * 60,
     },
     providers: [
         CredentialsProvider({
@@ -29,7 +31,40 @@ export const authOption = {
 
             }
         })
-    ]
+    ],
+
+    callbacks: {
+        async jwt({ token, account, user }) {
+            try {
+                // Persist the OAuth access_token and or the user id to the token right after signin
+                if (account) {
+                    token.type = user.type;
+                    console.log("JWT Callback - User Type:", token.type, account, user.type);
+                }
+                return token;
+            } catch (error) {
+                console.error("JWT Callback Error:", error);
+                return token;
+            }
+        },
+        async session({ session, token }) {
+            try {
+                session.user.type = token.type;
+                console.log("Session Callback - Session and Token:", session, token);
+                return session;
+            } catch (error) {
+                console.error("Session Callback Error:", error);
+                return session;
+            }
+        }
+    },
+
+    async session({ session, token }) {
+        session.user.type = token.type
+        console.log("form line : 50", session, token);
+        return session
+    },
+
 
 }
 const handler = NextAuth(authOption)
@@ -37,11 +72,18 @@ const handler = NextAuth(authOption)
 const users = [
     {
         email: "mehedi@gmail.com",
-        password: "hhhh2233"
+        password: "hhhh2233",
+        name: "Mehedi Hasan",
+        type: "admin",
+        id: 1
     },
     {
-        emai: "rifat@gmail.com",
-        password: "Rifat1122"
+        email: "rifat@gmail.com",
+        password: "Rifat1122",
+        name: "Rifat Hosen",
+        type: "user",
+        id: 2
+
     }
 ]
 
