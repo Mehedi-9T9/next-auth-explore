@@ -9,11 +9,12 @@ const Navbar = () => {
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
-                <a className="btn btn-ghost text-xl">daisyUI</a>
+                <a className="btn btn-ghost text-3xl">Next-Auth-Explore</a>
             </div>
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1">
                     {session.status === "authenticated" ? <li><Link href={'/api/auth/signin'} >Logout</Link></li> : <li><Link href={'/api/auth/signin'} >Login</Link></li>}
+                    <li><Link href={'/blogs'}>Blogs</Link></li>
                     <li>
                         <details>
                             <summary>Parent</summary>

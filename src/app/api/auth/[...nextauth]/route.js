@@ -1,7 +1,9 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
-const handler = NextAuth({
+
+export const authOption = {
+    secret: "SeYc/1u0zd3YL1WTGUUgkh2xeFQsAdZy5cFAAKtLcSA=",
     session: {
         strategy: "jwt",
         // generateSessionToken: () => {
@@ -21,7 +23,7 @@ const handler = NextAuth({
                 const { email, password } = credentials
                 const currentUser = users.find(user => user.email === email && user.password === password)
                 if (currentUser) {
-                    return true
+                    return currentUser
                 } else { return null }
 
 
@@ -29,7 +31,8 @@ const handler = NextAuth({
         })
     ]
 
-})
+}
+const handler = NextAuth(authOption)
 
 const users = [
     {
