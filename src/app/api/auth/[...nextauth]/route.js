@@ -71,7 +71,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 // export { handler as GET, handler as POST }
 // import NextAuth from "next-auth"
 
-const handler = NextAuth({
+export const authOption = {
     secret: "SeYc/1u0zd3YL1WTGUUgkh2xeFQsAdZy5cFAAKtLcSA=",
 
     session: {
@@ -102,7 +102,7 @@ const handler = NextAuth({
                 // Persist the OAuth access_token and or the user id to the token right after signin
                 if (account) {
                     token.type = user.type;
-                    console.log("JWT Callback - User Type:", token.type, account, user.type);
+                    // console.log("JWT Callback - User Type:", token.type, account, user.type);
                 }
                 return token;
             } catch (error) {
@@ -112,13 +112,15 @@ const handler = NextAuth({
         },
         async session({ session, token }) {
             session.user.type = token.type
-            console.log("form line : 50", session, token);
+            // console.log("form line : 50", session, token);
             return session
         },
 
     }
 
-})
+}
+
+const handler = NextAuth(authOption)
 
 const users = [
     {

@@ -5,7 +5,7 @@ import React from 'react';
 
 const Navbar = () => {
     const session = useSession()
-    console.log(session?.data?.user);
+
 
     return (
         <div className="navbar bg-base-100">
