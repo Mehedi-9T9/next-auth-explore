@@ -1,5 +1,7 @@
+import { connectDB } from "@/lib/connectDB"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import authUser from '@/schemas/userSchema'
 
 
 // export const authOption = {
@@ -88,7 +90,9 @@ export const authOption = {
                     return null
                 }
                 const { email, password } = credentials
-                const currentUser = users.find(user => user.email === email && user.password === password)
+                // const currentUser = users.find(user => user.email === email && user.password === password)
+                const database = await connectDB()
+                const currentUser = authUser.findOne({ email })
                 if (currentUser) {
                     return currentUser
                 } else { return null }
@@ -122,22 +126,22 @@ export const authOption = {
 
 const handler = NextAuth(authOption)
 
-const users = [
-    {
-        email: "mehedi@gmail.com",
-        password: "hhhh2233",
-        name: "Mehedi Hasan",
-        type: "admin",
-        id: 1
-    },
-    {
-        email: "rifat@gmail.com",
-        password: "Rifat1122",
-        name: "Rifat Hosen",
-        type: "user",
-        id: 2
+// const users = [
+//     {
+//         email: "mehedi@gmail.com",
+//         password: "hhhh2233",
+//         name: "Mehedi Hasan",
+//         type: "admin",
+//         id: 1
+//     },
+//     {
+//         email: "rifat@gmail.com",
+//         password: "Rifat1122",
+//         name: "Rifat Hosen",
+//         type: "user",
+//         id: 2
 
-    }
-]
+//     }
+// ]
 
 export { handler as GET, handler as POST }
