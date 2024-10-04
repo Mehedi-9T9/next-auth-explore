@@ -16,6 +16,7 @@ const Navbar = () => {
                 <ul className="menu menu-horizontal px-1">
                     {session.status === "authenticated" ? <button onClick={() => signOut()}>Logout</button> : <li><Link href={'/api/auth/signin'} >Login</Link></li>}
                     <li><Link href={'/blogs'}>Blogs</Link></li>
+                    <li><Link href={'/api/auth/signup'} >Signup</Link></li>
                     <li>
                         <details>
                             {session.status === "authenticated" ? <summary>{session?.data?.user?.name}</summary> : <summary>User Coming</summary>}
