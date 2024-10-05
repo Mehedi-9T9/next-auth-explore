@@ -1,22 +1,23 @@
 "use client"
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 // import { json } from 'stream/consumers';
 
 
 const signupPage = () => {
     const [userData, setUserData] = React.useState({ name: "", email: "", password: "", role: "" })
+    const router = useRouter()
     const handleSingup = async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault()
-            console.log("signup login from line: 9", userData);
-            const resp = await fetch("/api/signupUser", {
-                method: "POST",
-                body: JSON.stringify(userData),
-                headers: {
-                    "content-type": "application/json"
-                },
-            })
-            console.log("signup page form line: 18", resp);
+            // console.log("signup login from line: 9", userData);
+            const resp = await axios.post("/api/signupUser", userData)
+            console.log("signup page form line: 18", resp.data);
+            if (resp.data.message !== "signup fail") {
+                router.push('/api/auth/signin')
+
+            }
 
         } catch (error) {
             console.log("handle Error", error);

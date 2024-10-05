@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/connectDB"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import authUser from '@/schemas/userSchema'
+import GoogleProvider from "next-auth/providers/google";
 
 
 // export const authOption = {
@@ -98,6 +99,10 @@ export const authOption = {
                 } else { return null }
 
             }
+        }),
+        GoogleProvider({
+            clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT,
+            clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CECRET
         })
     ],
     callbacks: {
@@ -105,7 +110,7 @@ export const authOption = {
             try {
                 // Persist the OAuth access_token and or the user id to the token right after signin
                 if (account) {
-                    token.type = user.type;
+                    token.role = user.role;
                     // console.log("JWT Callback - User Type:", token.type, account, user.type);
                 }
                 return token;
@@ -115,7 +120,7 @@ export const authOption = {
             }
         },
         async session({ session, token }) {
-            session.user.type = token.type
+            session.user.role = token.role
             // console.log("form line : 50", session, token);
             return session
         },
